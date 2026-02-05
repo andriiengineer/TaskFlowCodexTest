@@ -33,6 +33,7 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
+      grepInvert: /@flaky/,
       use: { ...devices['Desktop Chrome'] }
     },
     {

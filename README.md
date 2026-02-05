@@ -42,7 +42,7 @@ npm run allure:open
 
 ### GitHub Actions (Allure on Pages)
 1. Open Actions → Playwright Allure (Manual)
-2. Run the workflow manually
+2. Choose test_suite: all / smoke / regression / flaky
 3. Open the Allure dashboard link above
 
 ### Local artifacts

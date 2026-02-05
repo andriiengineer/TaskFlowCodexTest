@@ -2,6 +2,17 @@ name: Playwright Allure (Manual)
 
 on:
   workflow_dispatch:
+    inputs:
+      test_suite:
+        description: "Select test subset"
+        required: true
+        default: "all"
+        type: choice
+        options:
+          - all
+          - smoke
+          - regression
+          - flaky
 
 permissions:
   contents: read
@@ -47,7 +58,13 @@ jobs:
           fi
 
       - name: Run Playwright tests
-        run: npm run test:allure
+        run: |
+          case "${{ inputs.test_suite }}" in
+            smoke) node tests/utils/allure-history.cjs && node tests/utils/allure-env.cjs && npx playwright test -g "@smoke" ;;
+            regression) node tests/utils/allure-history.cjs && node tests/utils/allure-env.cjs && npx playwright test -g "@regression" ;;
+            flaky) node tests/utils/allure-history.cjs && node tests/utils/allure-env.cjs && npx playwright test -g "@flaky" ;;
+            *) npm run test:allure ;;
+          esac
         continue-on-error: true
 
       - name: Generate Allure report
