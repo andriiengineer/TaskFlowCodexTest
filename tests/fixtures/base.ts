@@ -11,6 +11,7 @@ export const test = base.extend<Fixtures>({
   app: async ({ page }, use) => {
     const app = new TaskFlowPage(page);
     await app.goto();
+    await resetState(page);
     await use(app);
   }
 });
@@ -18,7 +19,6 @@ export const test = base.extend<Fixtures>({
 test.beforeEach(async ({ page }) => {
   startConsoleCapture(page);
   startNetworkCapture(page);
-  await resetState(page);
 });
 
 test.afterEach(async ({ page }, testInfo) => {
