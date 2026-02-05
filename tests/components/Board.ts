@@ -1,5 +1,6 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import { dragAndDrop } from '../utils/drag';
+import { step } from '../utils/allure';
 import type { ColumnId } from '../utils/constants';
 
 export class Board {
@@ -34,12 +35,16 @@ export class Board {
   }
 
   async expectTaskInColumn(taskId: string, columnId: ColumnId): Promise<void> {
-    await expect(this.columnBody(columnId).getByTestId(`task-${taskId}`)).toBeVisible();
+    await step(`Assert ${taskId} in ${columnId}`, async () => {
+      await expect(this.columnBody(columnId).getByTestId(`task-${taskId}`)).toBeVisible();
+    });
   }
 
   async dragTaskToColumn(taskId: string, columnId: ColumnId): Promise<void> {
-    await this.taskCard(taskId).scrollIntoViewIfNeeded();
-    await this.columnBody(columnId).scrollIntoViewIfNeeded();
-    await dragAndDrop(this.taskCard(taskId), this.columnBody(columnId));
+    await step(`Drag ${taskId} to ${columnId}`, async () => {
+      await this.taskCard(taskId).scrollIntoViewIfNeeded();
+      await this.columnBody(columnId).scrollIntoViewIfNeeded();
+      await dragAndDrop(this.taskCard(taskId), this.columnBody(columnId));
+    });
   }
 }

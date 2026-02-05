@@ -24,6 +24,10 @@ export function setAllureGroup(suite: string, subSuite?: string): void {
   if (subSuite) allure.subSuite(subSuite);
 }
 
+export async function step<T>(title: string, body: () => Promise<T>): Promise<T> {
+  return allure.step(title, body);
+}
+
 const consoleLogKey = '__consoleLogs__';
 
 export function startConsoleCapture(page: Page): void {
