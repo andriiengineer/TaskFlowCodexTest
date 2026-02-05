@@ -1,0 +1,23 @@
+{
+  "name": "taskflow-test-assignment",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "codegen": "playwright codegen http://localhost:8080",
+    "test:allure": "node tests/utils/allure-history.cjs && playwright test",
+    "allure:report": "allure generate --clean allure-results -o allure-report",
+    "allure:open": "allure open allure-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.1",
+    "@types/node": "^22.10.0",
+    "allure-commandline": "^2.30.0",
+    "allure-playwright": "^2.15.1",
+    "typescript": "^5.7.2"
+  }
+}

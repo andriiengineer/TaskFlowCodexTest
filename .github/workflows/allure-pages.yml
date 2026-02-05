@@ -1,0 +1,79 @@
+name: Playwright Allure (Manual)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Restore Allure history
+        uses: actions/cache@v4
+        with:
+          path: .allure-history
+          key: allure-history-${{ github.ref_name }}
+          restore-keys: |
+            allure-history-
+
+      - name: Prepare history
+        run: |
+          mkdir -p allure-results/history
+          if [ -d .allure-history/history ]; then
+            cp -r .allure-history/history/* allure-results/history/ || true
+          fi
+
+      - name: Run Playwright tests
+        run: npx playwright test
+
+      - name: Generate Allure report
+        run: npx allure generate --clean allure-results -o allure-report
+
+      - name: Save Allure history
+        run: |
+          mkdir -p .allure-history
+          if [ -d allure-report/history ]; then
+            rm -rf .allure-history/history
+            cp -r allure-report/history .allure-history/history
+          fi
+
+      - name: Cache Allure history
+        uses: actions/cache@v4
+        with:
+          path: .allure-history
+          key: allure-history-${{ github.ref_name }}
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: allure-report
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
