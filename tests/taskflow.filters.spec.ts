@@ -14,7 +14,7 @@ test.describe('Filtering & Search', () => {
       feature: 'Filtering & Search',
       story: 'Filter by assignee/priority and search',
       severity: 'normal',
-      owner: 'qa',
+      owner: 'Andrii Samoilenko',
       tags: ['filter', 'search']
     });
 

@@ -9,7 +9,8 @@ const env = [
   `BaseURL=${process.env.BASE_URL || 'http://localhost:8080'}`,
   `Browser=Chromium`,
   `Platform=${process.platform}`,
-  `Node=${process.version}`
+  `Node=${process.version}`,
+  `Author=Andrii Samoilenko`
 ].join('\n');
 fs.writeFileSync(envFile, env);
 

@@ -15,7 +15,7 @@ test.describe('Task CRUD', () => {
       feature: 'Task CRUD',
       story: 'Create/Edit/Delete',
       severity: 'critical',
-      owner: 'qa',
+      owner: 'Andrii Samoilenko',
       tags: ['crud', 'undo', 'redo']
     });
 

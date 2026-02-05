@@ -14,7 +14,7 @@ test.describe('Selection', () => {
       feature: 'Selection & Context Menu',
       story: 'Multi-select and duplicate',
       severity: 'normal',
-      owner: 'qa',
+      owner: 'Andrii Samoilenko',
       tags: ['selection', 'context-menu']
     });
 
@@ -57,7 +57,7 @@ test.describe('Interactions', () => {
       feature: 'Interactions',
       story: 'Drag & shortcuts',
       severity: 'normal',
-      owner: 'qa',
+      owner: 'Andrii Samoilenko',
       tags: ['drag', 'keyboard']
     });
 

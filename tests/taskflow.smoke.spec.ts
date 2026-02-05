@@ -15,7 +15,7 @@ test.describe('Board', () => {
       feature: 'Board',
       story: 'Initial render',
       severity: 'critical',
-      owner: 'qa',
+      owner: 'Andrii Samoilenko',
       tags: ['smoke', 'board']
     });
 

@@ -15,7 +15,7 @@ test.describe('Context Menu', () => {
       feature: 'Context Menu',
       story: 'Move and undo/redo',
       severity: 'normal',
-      owner: 'qa',
+      owner: 'Andrii Samoilenko',
       tags: ['context-menu', 'move', 'undo']
     });
 
@@ -49,7 +49,7 @@ test.describe('Selection', () => {
       feature: 'Selection',
       story: 'Bulk delete',
       severity: 'normal',
-      owner: 'qa',
+      owner: 'Andrii Samoilenko',
       tags: ['delete', 'multi-select']
     });
 
@@ -85,7 +85,7 @@ test.describe('Due Dates', () => {
       feature: 'Due Dates',
       story: 'Badge formatting',
       severity: 'minor',
-      owner: 'qa',
+      owner: 'Andrii Samoilenko',
       tags: ['due-date']
     });
 
@@ -138,7 +138,7 @@ test.describe('Filtering & Search', () => {
       feature: 'Filtering & Search',
       story: 'Search by ID and combined filters',
       severity: 'normal',
-      owner: 'qa',
+      owner: 'Andrii Samoilenko',
       tags: ['search', 'filter']
     });
 
