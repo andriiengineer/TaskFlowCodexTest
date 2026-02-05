@@ -5,8 +5,6 @@ export function setAllureMeta(meta: {
   epic: string;
   feature: string;
   story?: string;
-  suite?: string;
-  subSuite?: string;
   severity?: 'blocker' | 'critical' | 'normal' | 'minor' | 'trivial';
   owner?: string;
   tags?: string[];
@@ -15,12 +13,15 @@ export function setAllureMeta(meta: {
   allure.epic(meta.epic);
   allure.feature(meta.feature);
   if (meta.story) allure.story(meta.story);
-  if (meta.suite) allure.suite(meta.suite);
-  if (meta.subSuite) allure.subSuite(meta.subSuite);
   if (meta.severity) allure.severity(meta.severity);
   if (meta.owner) allure.owner(meta.owner);
   if (meta.tags) meta.tags.forEach(tag => allure.tag(tag));
   if (meta.description) allure.description(meta.description);
+}
+
+export function setAllureGroup(suite: string, subSuite?: string): void {
+  allure.suite(suite);
+  if (subSuite) allure.subSuite(subSuite);
 }
 
 const consoleLogKey = '__consoleLogs__';

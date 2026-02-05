@@ -1,19 +1,22 @@
 import { test, expect } from './fixtures/base';
 import { COLUMNS } from './utils/constants';
 import { getTasks } from './utils/testApi';
-import { setAllureMeta } from './utils/allure';
+import { setAllureGroup, setAllureMeta } from './utils/allure';
 
-test('loads board with correct column counts', async ({ app }) => {
-  setAllureMeta({
-    epic: 'TaskFlow',
-    feature: 'Board',
-    story: 'Initial render',
-    suite: 'Board',
-    subSuite: 'Smoke',
-    severity: 'critical',
-    owner: 'qa',
-    tags: ['smoke', 'board']
+test.describe('Board', () => {
+  test.beforeEach(() => {
+    setAllureGroup('Board', 'Smoke');
   });
+
+  test('loads board with correct column counts', async ({ app }) => {
+    setAllureMeta({
+      epic: 'TaskFlow',
+      feature: 'Board',
+      story: 'Initial render',
+      severity: 'critical',
+      owner: 'qa',
+      tags: ['smoke', 'board']
+    });
 
   const tasks = await getTasks(app.page);
   const counts = tasks.reduce<Record<string, number>>((acc, task) => {
@@ -29,5 +32,6 @@ test('loads board with correct column counts', async ({ app }) => {
     await expect(app.board.columnCount(column.id)).toHaveText(String(counts[column.id] ?? 0));
   }
 
-  await expect(app.page.getByTestId('all-tasks-count')).toHaveText(String(tasks.length));
+    await expect(app.page.getByTestId('all-tasks-count')).toHaveText(String(tasks.length));
+  });
 });
