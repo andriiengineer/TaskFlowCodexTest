@@ -7,7 +7,7 @@ export default defineConfig({
   fullyParallel: true,
   timeout: 30_000,
   expect: { timeout: 5_000 },
-  retries: process.env.CI ? 2 : 0,
+  retries: 0,
   workers: process.env.CI ? 2 : undefined,
   reporter: [
     ['list'],
@@ -33,6 +33,12 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
+      use: { ...devices['Desktop Chrome'] }
+    },
+    {
+      name: 'chromium-flaky',
+      grep: /@flaky/,
+      retries: 2,
       use: { ...devices['Desktop Chrome'] }
     }
   ]

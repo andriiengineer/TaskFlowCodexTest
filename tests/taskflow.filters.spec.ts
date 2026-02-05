@@ -1,13 +1,14 @@
 import { test, expect } from './fixtures/base';
 import { getTasks } from './utils/testApi';
 import { setAllureGroup, setAllureMeta, step } from './utils/allure';
+import { TAGS } from './utils/tags';
 
 test.describe('Filtering & Search', () => {
   test.beforeEach(() => {
     setAllureGroup('Filtering & Search', 'Core filters');
   });
 
-  test('filters by assignee and priority, search hides non-matching tasks @regression', async ({ app }) => {
+  test(`filters by assignee and priority, search hides non-matching tasks ${TAGS.regression}`, async ({ app }) => {
     setAllureMeta({
       epic: 'TaskFlow',
       feature: 'Filtering & Search',

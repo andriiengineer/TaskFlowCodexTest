@@ -2,13 +2,14 @@ import { test, expect } from './fixtures/base';
 import { COLUMNS } from './utils/constants';
 import { getTasks } from './utils/testApi';
 import { setAllureGroup, setAllureMeta, step } from './utils/allure';
+import { TAGS } from './utils/tags';
 
 test.describe('Board', () => {
   test.beforeEach(() => {
     setAllureGroup('Board', 'Smoke');
   });
 
-  test('loads board with correct column counts @smoke', async ({ app }) => {
+  test(`loads board with correct column counts ${TAGS.smoke}`, async ({ app }) => {
     setAllureMeta({
       epic: 'TaskFlow',
       feature: 'Board',

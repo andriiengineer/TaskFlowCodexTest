@@ -2,13 +2,14 @@ import { test, expect } from './fixtures/base';
 import { getTaskByTitle } from './utils/testApi';
 import { getTomorrow } from './utils/date';
 import { setAllureGroup, setAllureMeta, step } from './utils/allure';
+import { TAGS } from './utils/tags';
 
 test.describe('Task CRUD', () => {
   test.beforeEach(() => {
     setAllureGroup('Task CRUD', 'Primary flow');
   });
 
-  test('create, edit, delete with undo/redo @regression', async ({ app }) => {
+  test(`create, edit, delete with undo/redo ${TAGS.regression}`, async ({ app }) => {
     setAllureMeta({
       epic: 'TaskFlow',
       feature: 'Task CRUD',

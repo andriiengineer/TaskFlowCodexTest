@@ -78,6 +78,8 @@ npm run allure:open
 npm run test:ui
 npm run test:headed
 npm run test:debug
+npx playwright test -g @smoke
+npx playwright test -g @regression
 ```
 
 ---

@@ -1,13 +1,14 @@
 import { test, expect } from './fixtures/base';
 import { getSelectedTasks, getTaskByTitle } from './utils/testApi';
 import { setAllureGroup, setAllureMeta, step } from './utils/allure';
+import { TAGS } from './utils/tags';
 
 test.describe('Selection', () => {
   test.beforeEach(() => {
     setAllureGroup('Selection', 'Context menu');
   });
 
-  test('multi-select and context menu duplicate @regression', async ({ app }) => {
+  test(`multi-select and context menu duplicate ${TAGS.regression}`, async ({ app }) => {
     setAllureMeta({
       epic: 'TaskFlow',
       feature: 'Selection & Context Menu',
@@ -50,7 +51,7 @@ test.describe('Interactions', () => {
     setAllureGroup('Interactions', 'Drag & keyboard');
   });
 
-  test('drag and drop and keyboard shortcuts @regression', async ({ app }) => {
+  test(`drag and drop and keyboard shortcuts ${TAGS.regression}`, async ({ app }) => {
     setAllureMeta({
       epic: 'TaskFlow',
       feature: 'Interactions',

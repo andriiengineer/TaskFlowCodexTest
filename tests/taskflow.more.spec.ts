@@ -2,13 +2,14 @@ import { test, expect } from './fixtures/base';
 import { getSelectedTasks, getTaskById, getTasks } from './utils/testApi';
 import { setAllureGroup, setAllureMeta, step } from './utils/allure';
 import { getTomorrow } from './utils/date';
+import { TAGS } from './utils/tags';
 
 test.describe('Context Menu', () => {
   test.beforeEach(() => {
     setAllureGroup('Context Menu', 'Move');
   });
 
-  test('context menu move to column and undo/redo @regression', async ({ app }) => {
+  test(`context menu move to column and undo/redo ${TAGS.regression}`, async ({ app }) => {
     setAllureMeta({
       epic: 'TaskFlow',
       feature: 'Context Menu',
@@ -42,7 +43,7 @@ test.describe('Selection', () => {
     setAllureGroup('Selection', 'Bulk actions');
   });
 
-  test('bulk delete with undo @regression', async ({ app }) => {
+  test(`bulk delete with undo ${TAGS.regression}`, async ({ app }) => {
     setAllureMeta({
       epic: 'TaskFlow',
       feature: 'Selection',
@@ -78,7 +79,7 @@ test.describe('Due Dates', () => {
     setAllureGroup('Due Dates', 'Badges');
   });
 
-  test('due date badges show Today/Tomorrow/Overdue @regression', async ({ app }) => {
+  test(`due date badges show Today/Tomorrow/Overdue ${TAGS.regression}`, async ({ app }) => {
     setAllureMeta({
       epic: 'TaskFlow',
       feature: 'Due Dates',
@@ -131,7 +132,7 @@ test.describe('Filtering & Search', () => {
     setAllureGroup('Filtering & Search', 'Advanced filters');
   });
 
-  test('search by task id and combined filters @regression', async ({ app }) => {
+  test(`search by task id and combined filters ${TAGS.regression}`, async ({ app }) => {
     setAllureMeta({
       epic: 'TaskFlow',
       feature: 'Filtering & Search',
