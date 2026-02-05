@@ -25,6 +25,16 @@ const categories = [
     messageRegex: '.*Timeout.*'
   },
   {
+    name: 'UI Issues',
+    matchedStatuses: ['failed'],
+    messageRegex: '.*locator.*|.*element\\(s\\) not found.*'
+  },
+  {
+    name: 'Network Issues',
+    matchedStatuses: ['failed', 'broken'],
+    messageRegex: '.*net::.*|.*Request failed.*|.*ERR_.*'
+  },
+  {
     name: 'Flaky',
     matchedStatuses: ['broken', 'failed'],
     flaky: true

@@ -49,10 +49,35 @@ export function startConsoleCapture(page: Page): void {
   });
 }
 
+const networkLogKey = '__networkLogs__';
+
+export function startNetworkCapture(page: Page): void {
+  const logs: string[] = [];
+  (page as unknown as Record<string, unknown>)[networkLogKey] = logs;
+
+  page.on('requestfailed', request => {
+    const failure = request.failure();
+    logs.push(`REQUEST FAILED: ${request.method()} ${request.url()} - ${failure?.errorText ?? 'Unknown error'}`);
+  });
+
+  page.on('response', response => {
+    if (response.status() >= 400) {
+      logs.push(`RESPONSE ${response.status()}: ${response.request().method()} ${response.url()}`);
+    }
+  });
+}
+
 export function attachConsoleLogs(page: Page): void {
   const logs = (page as unknown as Record<string, unknown>)[consoleLogKey] as string[] | undefined;
   if (logs && logs.length) {
     allure.attachment('Browser console', logs.join('\n'), 'text/plain');
+  }
+}
+
+export function attachNetworkLogs(page: Page): void {
+  const logs = (page as unknown as Record<string, unknown>)[networkLogKey] as string[] | undefined;
+  if (logs && logs.length) {
+    allure.attachment('Network errors', logs.join('\n'), 'text/plain');
   }
 }
 

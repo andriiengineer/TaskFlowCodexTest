@@ -1073,6 +1073,7 @@
             { id: 'TASK-007', title: 'Add export to PDF feature', description: 'Allow users to export reports as PDF', status: 'backlog', priority: 'medium', assignee: '', labels: ['feature'], dueDate: null },
             { id: 'TASK-008', title: 'Security audit fixes', description: 'Address issues from security audit', status: 'in-progress', priority: 'high', assignee: 'SA', labels: ['bug', 'urgent'], dueDate: getTomorrowDate() },
         ];
+        const initialTasks = JSON.parse(JSON.stringify(tasks));
 
         let selectedTasks = [];
         let editingTaskId = null;
@@ -1740,6 +1741,26 @@
             getHistoryIndex: () => historyIndex,
             canUndo: () => historyIndex > 0,
             canRedo: () => historyIndex < history.length - 1,
+            resetState: () => {
+                tasks = JSON.parse(JSON.stringify(initialTasks));
+                selectedTasks = [];
+                filters = { assignee: '', priority: '' };
+                history = [JSON.stringify(tasks)];
+                historyIndex = 0;
+                renderBoard();
+                updateCounts();
+                updateUndoRedoButtons();
+            },
+            seedTasks: (newTasks) => {
+                tasks = JSON.parse(JSON.stringify(newTasks));
+                selectedTasks = [];
+                filters = { assignee: '', priority: '' };
+                history = [JSON.stringify(tasks)];
+                historyIndex = 0;
+                renderBoard();
+                updateCounts();
+                updateUndoRedoButtons();
+            },
             simulateWebSocketMessage: (data) => {
                 // Simulate receiving a WebSocket message
                 if (data.type === 'task_updated') {

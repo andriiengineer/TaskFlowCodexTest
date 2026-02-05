@@ -8,7 +8,7 @@ test.describe('Task CRUD', () => {
     setAllureGroup('Task CRUD', 'Primary flow');
   });
 
-  test('create, edit, delete with undo/redo', async ({ app }) => {
+  test('create, edit, delete with undo/redo @regression', async ({ app }) => {
     setAllureMeta({
       epic: 'TaskFlow',
       feature: 'Task CRUD',

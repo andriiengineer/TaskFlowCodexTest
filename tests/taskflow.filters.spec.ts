@@ -7,7 +7,7 @@ test.describe('Filtering & Search', () => {
     setAllureGroup('Filtering & Search', 'Core filters');
   });
 
-  test('filters by assignee and priority, search hides non-matching tasks', async ({ app }) => {
+  test('filters by assignee and priority, search hides non-matching tasks @regression', async ({ app }) => {
     setAllureMeta({
       epic: 'TaskFlow',
       feature: 'Filtering & Search',

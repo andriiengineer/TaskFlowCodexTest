@@ -8,7 +8,7 @@ test.describe('Board', () => {
     setAllureGroup('Board', 'Smoke');
   });
 
-  test('loads board with correct column counts', async ({ app }) => {
+  test('loads board with correct column counts @smoke', async ({ app }) => {
     setAllureMeta({
       epic: 'TaskFlow',
       feature: 'Board',

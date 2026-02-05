@@ -7,7 +7,7 @@ test.describe('Selection', () => {
     setAllureGroup('Selection', 'Context menu');
   });
 
-  test('multi-select and context menu duplicate', async ({ app }) => {
+  test('multi-select and context menu duplicate @regression', async ({ app }) => {
     setAllureMeta({
       epic: 'TaskFlow',
       feature: 'Selection & Context Menu',
@@ -50,7 +50,7 @@ test.describe('Interactions', () => {
     setAllureGroup('Interactions', 'Drag & keyboard');
   });
 
-  test('drag and drop and keyboard shortcuts', async ({ app }) => {
+  test('drag and drop and keyboard shortcuts @regression', async ({ app }) => {
     setAllureMeta({
       epic: 'TaskFlow',
       feature: 'Interactions',
