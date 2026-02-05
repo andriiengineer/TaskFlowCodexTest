@@ -1,4 +1,7 @@
 # TaskFlowCodexTest
+[![Allure Report](https://github.com/andriiengineer/TaskFlowCodexTest/actions/workflows/allure-pages.yml/badge.svg)](https://github.com/andriiengineer/TaskFlowCodexTest/actions/workflows/allure-pages.yml)
+
+Allure report: [TaskFlow Allure Dashboard](https://andriiengineer.github.io/TaskFlowCodexTest/)
 
 ## Prerequisites
 - Node.js 18+

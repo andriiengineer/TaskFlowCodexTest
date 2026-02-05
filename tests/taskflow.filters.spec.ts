@@ -7,6 +7,8 @@ test('filters by assignee and priority, search hides non-matching tasks', async 
     epic: 'TaskFlow',
     feature: 'Filtering & Search',
     story: 'Filter by assignee/priority and search',
+    suite: 'Filtering & Search',
+    subSuite: 'Core filters',
     severity: 'normal',
     owner: 'qa',
     tags: ['filter', 'search']

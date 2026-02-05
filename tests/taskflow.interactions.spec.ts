@@ -7,6 +7,8 @@ test('multi-select and context menu duplicate', async ({ app }) => {
     epic: 'TaskFlow',
     feature: 'Selection & Context Menu',
     story: 'Multi-select and duplicate',
+    suite: 'Selection',
+    subSuite: 'Context menu',
     severity: 'normal',
     owner: 'qa',
     tags: ['selection', 'context-menu']
@@ -37,6 +39,8 @@ test('drag and drop and keyboard shortcuts', async ({ app }) => {
     epic: 'TaskFlow',
     feature: 'Interactions',
     story: 'Drag & shortcuts',
+    suite: 'Interactions',
+    subSuite: 'Drag & keyboard',
     severity: 'normal',
     owner: 'qa',
     tags: ['drag', 'keyboard']

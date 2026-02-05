@@ -8,6 +8,8 @@ test('loads board with correct column counts', async ({ app }) => {
     epic: 'TaskFlow',
     feature: 'Board',
     story: 'Initial render',
+    suite: 'Board',
+    subSuite: 'Smoke',
     severity: 'critical',
     owner: 'qa',
     tags: ['smoke', 'board']

@@ -8,6 +8,8 @@ test('create, edit, delete with undo/redo', async ({ app }) => {
     epic: 'TaskFlow',
     feature: 'Task CRUD',
     story: 'Create/Edit/Delete',
+    suite: 'Task CRUD',
+    subSuite: 'Primary flow',
     severity: 'critical',
     owner: 'qa',
     tags: ['crud', 'undo', 'redo']

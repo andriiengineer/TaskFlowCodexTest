@@ -8,6 +8,8 @@ test('context menu move to column and undo/redo', async ({ app }) => {
     epic: 'TaskFlow',
     feature: 'Context Menu',
     story: 'Move and undo/redo',
+    suite: 'Context Menu',
+    subSuite: 'Move',
     severity: 'normal',
     owner: 'qa',
     tags: ['context-menu', 'move', 'undo']
@@ -31,6 +33,8 @@ test('bulk delete with undo', async ({ app }) => {
     epic: 'TaskFlow',
     feature: 'Selection',
     story: 'Bulk delete',
+    suite: 'Selection',
+    subSuite: 'Bulk actions',
     severity: 'normal',
     owner: 'qa',
     tags: ['delete', 'multi-select']
@@ -56,6 +60,8 @@ test('due date badges show Today/Tomorrow/Overdue', async ({ app }) => {
     epic: 'TaskFlow',
     feature: 'Due Dates',
     story: 'Badge formatting',
+    suite: 'Due Dates',
+    subSuite: 'Badges',
     severity: 'minor',
     owner: 'qa',
     tags: ['due-date']
@@ -97,6 +103,8 @@ test('search by task id and combined filters', async ({ app }) => {
     epic: 'TaskFlow',
     feature: 'Filtering & Search',
     story: 'Search by ID and combined filters',
+    suite: 'Filtering & Search',
+    subSuite: 'Advanced filters',
     severity: 'normal',
     owner: 'qa',
     tags: ['search', 'filter']
