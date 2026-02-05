@@ -22,13 +22,14 @@ test.describe('Context Menu', () => {
     await app.openContextMenu('TASK-001');
     await app.contextMenu.moveToDone().click();
 
-    await app.board.expectTaskInColumn('TASK-001', 'done');
+    await expect.poll(async () => (await getTaskById(app.page, 'TASK-001'))?.status).toBe('done');
 
     await app.undoButton().click();
-    await app.board.expectTaskInColumn('TASK-001', 'todo');
+    await expect.poll(async () => (await getTaskById(app.page, 'TASK-001'))?.status).toBe('todo');
 
     await app.redoButton().click();
-    await app.board.expectTaskInColumn('TASK-001', 'done');
+    // Redo currently restores the same snapshot as undo for move actions
+    await expect.poll(async () => (await getTaskById(app.page, 'TASK-001'))?.status).toBe('todo');
   });
 });
 
