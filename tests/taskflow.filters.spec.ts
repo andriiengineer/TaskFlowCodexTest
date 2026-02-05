@@ -1,7 +1,17 @@
 import { test, expect } from './fixtures/base';
 import { getTasks } from './utils/testApi';
+import { setAllureMeta } from './utils/allure';
 
 test('filters by assignee and priority, search hides non-matching tasks', async ({ app }) => {
+  setAllureMeta({
+    epic: 'TaskFlow',
+    feature: 'Filtering & Search',
+    story: 'Filter by assignee/priority and search',
+    severity: 'normal',
+    owner: 'qa',
+    tags: ['filter', 'search']
+  });
+
   const tasks = await getTasks(app.page);
   const saCount = tasks.filter(task => task.assignee === 'SA').length;
   const highCount = tasks.filter(task => task.priority === 'high').length;

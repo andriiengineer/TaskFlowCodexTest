@@ -47,7 +47,7 @@ jobs:
           fi
 
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npm run test:allure
 
       - name: Generate Allure report
         run: npx allure generate --clean allure-results -o allure-report

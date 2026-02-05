@@ -25,6 +25,7 @@ npm run allure:open
 Notes:
 - `test:allure` copies `allure-report/history` into `allure-results/history` before the run, so trends are preserved.
 - Allure shows retry attempts automatically (Playwright `retries` setting).
+- Environment and categories are written to `allure-results` before the run for richer dashboards.
 
 ## Notes
 - The Playwright config starts a local server using:

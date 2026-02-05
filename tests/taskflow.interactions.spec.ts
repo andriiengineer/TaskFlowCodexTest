@@ -1,7 +1,17 @@
 import { test, expect } from './fixtures/base';
 import { getSelectedTasks, getTaskByTitle } from './utils/testApi';
+import { setAllureMeta } from './utils/allure';
 
 test('multi-select and context menu duplicate', async ({ app }) => {
+  setAllureMeta({
+    epic: 'TaskFlow',
+    feature: 'Selection & Context Menu',
+    story: 'Multi-select and duplicate',
+    severity: 'normal',
+    owner: 'qa',
+    tags: ['selection', 'context-menu']
+  });
+
   await app.selectTask('TASK-001');
   await app.selectTask('TASK-002', true);
 
@@ -23,6 +33,15 @@ test('multi-select and context menu duplicate', async ({ app }) => {
 });
 
 test('drag and drop and keyboard shortcuts', async ({ app }) => {
+  setAllureMeta({
+    epic: 'TaskFlow',
+    feature: 'Interactions',
+    story: 'Drag & shortcuts',
+    severity: 'normal',
+    owner: 'qa',
+    tags: ['drag', 'keyboard']
+  });
+
   await app.board.dragTaskToColumn('TASK-005', 'done');
   await app.board.expectTaskInColumn('TASK-005', 'done');
 

@@ -1,8 +1,18 @@
 import { test, expect } from './fixtures/base';
 import { getTaskByTitle } from './utils/testApi';
 import { getTomorrow } from './utils/date';
+import { setAllureMeta } from './utils/allure';
 
 test('create, edit, delete with undo/redo', async ({ app }) => {
+  setAllureMeta({
+    epic: 'TaskFlow',
+    feature: 'Task CRUD',
+    story: 'Create/Edit/Delete',
+    severity: 'critical',
+    owner: 'qa',
+    tags: ['crud', 'undo', 'redo']
+  });
+
   const title = `Write onboarding guide`;
 
   await app.createTask({
