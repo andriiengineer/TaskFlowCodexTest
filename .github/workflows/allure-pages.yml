@@ -13,6 +13,14 @@ on:
           - smoke
           - regression
           - flaky
+      reset_history:
+        description: "Reset Allure history cache"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
 
 permissions:
   contents: read
@@ -42,6 +50,10 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
+      - name: Clean Allure artifacts
+        run: |
+          rm -rf allure-results allure-report
+
       - name: Restore Allure history
         uses: actions/cache@v4
         with:
@@ -49,6 +61,11 @@ jobs:
           key: allure-history-${{ github.ref_name }}
           restore-keys: |
             allure-history-
+
+      - name: Reset Allure history (optional)
+        if: ${{ inputs.reset_history == 'true' }}
+        run: |
+          rm -rf .allure-history
 
       - name: Prepare history
         run: |
