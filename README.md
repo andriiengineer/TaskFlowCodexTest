@@ -1,28 +1,35 @@
 # TaskFlowCodexTest
 
-Playwright + TypeScript тесты для приложения TaskFlow с Allure отчетами и GitHub Pages.
+Playwright + TypeScript tests for TaskFlow with Allure reporting and GitHub Pages publishing.
 
 [![Allure Report](https://github.com/andriiengineer/TaskFlowCodexTest/actions/workflows/allure-pages.yml/badge.svg)](https://github.com/andriiengineer/TaskFlowCodexTest/actions/workflows/allure-pages.yml)
 
-**Allure отчет (GitHub Pages):**
-- https://andriiengineer.github.io/TaskFlowCodexTest/
+Allure dashboard: https://andriiengineer.github.io/TaskFlowCodexTest/
 
 ---
 
-## Быстрый старт (локально)
+## Quick Links
+- Local run
+- Allure report
+- CI run
+- Project structure
 
-### 1) Установка
+---
+
+## Local Run
+
+### Install
 ```bash
 npm install
 npx playwright install
 ```
 
-### 2) Запуск тестов
+### Run tests
 ```bash
 npm test
 ```
 
-### 3) Allure отчет локально
+### Run Allure locally
 ```bash
 npm run test:allure
 npm run allure:report
@@ -31,34 +38,42 @@ npm run allure:open
 
 ---
 
-## Что именно проверяют тесты
-- Kanban board и счетчики колонок
-- CRUD задач: создание, редактирование, удаление
+## Results and Reports
+
+### GitHub Actions (Allure on Pages)
+1. Open Actions → Playwright Allure (Manual)
+2. Run the workflow manually
+3. Open the Allure dashboard link above
+
+### Local artifacts
+- Playwright HTML report: `playwright-report/`
+- Allure report: `allure-report/`
+
+---
+
+## What Is Covered
+- Board rendering and column counts
+- Task CRUD
 - Undo/Redo
-- Контекстное меню и перемещение задач
-- Multi-select и bulk delete
-- Поиск и фильтры
-- Drag & Drop
-- Хоткеи
-- Due date: Today / Tomorrow / Overdue
+- Context menu actions
+- Multi-select and bulk delete
+- Filters and search
+- Drag and drop
+- Keyboard shortcuts
+- Due date badges (Today/Tomorrow/Overdue)
 
 ---
 
-## Где смотреть результаты
-
-### В CI (GitHub Actions)
-1. Открой **Actions → Playwright Allure (Manual)**
-2. Запусти workflow вручную
-3. После завершения открой **Allure report** на Pages:
-   https://andriiengineer.github.io/TaskFlowCodexTest/
-
-### Локально
-- HTML отчет Playwright: `playwright-report/`
-- Allure отчет: `allure-report/`
+## Project Structure
+- Tests: `tests/`
+- Page Objects: `tests/pages/`
+- Components: `tests/components/`
+- Utilities: `tests/utils/`
+- Config: `playwright.config.ts`
 
 ---
 
-## Полезные команды
+## Useful Commands
 ```bash
 npm run test:ui
 npm run test:headed
@@ -67,17 +82,24 @@ npm run test:debug
 
 ---
 
-## Технические детали
-- Тесты: `tests/`
-- Page Objects: `tests/pages/`
-- Компоненты: `tests/components/`
-- Утилиты: `tests/utils/`
-- Конфиг: `playwright.config.ts`
+## FAQ
+
+<details>
+<summary>How do I change the base URL?</summary>
+
+```bash
+BASE_URL=http://localhost:8080 npm test
+```
+</details>
+
+<details>
+<summary>How does Allure history work?</summary>
+
+The workflow and local script copy `allure-report/history` into `allure-results/history` before each run so trends are preserved.
+</details>
 
 ---
 
-## Примечания
-- Локальный сервер поднимается через:
+## Notes
+- The local server runs via:
   `python3 -m http.server 8080 --directory app`
-- Можно переопределить базовый URL:
-  `BASE_URL=http://localhost:8080 npm test`
