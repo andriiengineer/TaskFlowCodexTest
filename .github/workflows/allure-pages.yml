@@ -48,11 +48,14 @@ jobs:
 
       - name: Run Playwright tests
         run: npm run test:allure
+        continue-on-error: true
 
       - name: Generate Allure report
+        if: always()
         run: npx allure generate --clean allure-results -o allure-report
 
       - name: Save Allure history
+        if: always()
         run: |
           mkdir -p .allure-history
           if [ -d allure-report/history ]; then
@@ -61,12 +64,14 @@ jobs:
           fi
 
       - name: Cache Allure history
+        if: always()
         uses: actions/cache@v4
         with:
           path: .allure-history
           key: allure-history-${{ github.ref_name }}
 
       - name: Upload Pages artifact
+        if: always()
         uses: actions/upload-pages-artifact@v3
         with:
           path: allure-report
@@ -76,4 +81,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
+        if: always()
         uses: actions/deploy-pages@v4

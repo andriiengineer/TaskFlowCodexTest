@@ -28,8 +28,7 @@ test.describe('Context Menu', () => {
     await expect.poll(async () => (await getTaskById(app.page, 'TASK-001'))?.status).toBe('todo');
 
     await app.redoButton().click();
-    // Redo currently restores the same snapshot as undo for move actions
-    await expect.poll(async () => (await getTaskById(app.page, 'TASK-001'))?.status).toBe('todo');
+    await expect.poll(async () => (await getTaskById(app.page, 'TASK-001'))?.status).toBe('done');
   });
 });
 

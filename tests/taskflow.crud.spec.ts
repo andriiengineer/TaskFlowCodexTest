@@ -55,7 +55,6 @@ test.describe('Task CRUD', () => {
     await expect(app.board.taskCard(taskId)).toBeVisible();
 
     await app.redoButton().click();
-    // Redo restores the previous snapshot (same as undo for this app)
-    await expect(app.board.taskCard(taskId)).toBeVisible();
+    await expect(app.page.getByTestId(`task-${taskId}`)).toHaveCount(0);
   });
 });
