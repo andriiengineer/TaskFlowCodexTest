@@ -12,7 +12,7 @@ export default defineConfig({
   reporter: [
     ['list'],
     ['html', { open: 'never' }],
-    ['allure-playwright', { outputFolder: 'allure-results' }]
+    ['allure-playwright', { outputFolder: 'allure-results', detail: false }]
   ],
   use: {
     baseURL: process.env.BASE_URL ?? `http://localhost:${PORT}`,

@@ -9,6 +9,7 @@ export function setAllureMeta(meta: {
   owner?: string;
   tags?: string[];
   description?: string;
+  parameters?: Record<string, string | number | boolean>;
 }): void {
   allure.epic(meta.epic);
   allure.feature(meta.feature);
@@ -17,6 +18,11 @@ export function setAllureMeta(meta: {
   if (meta.owner) allure.owner(meta.owner);
   if (meta.tags) meta.tags.forEach(tag => allure.tag(tag));
   if (meta.description) allure.description(meta.description);
+  if (meta.parameters) {
+    for (const [name, value] of Object.entries(meta.parameters)) {
+      allure.parameter(name, String(value));
+    }
+  }
 }
 
 export function setAllureGroup(suite: string, subSuite?: string): void {

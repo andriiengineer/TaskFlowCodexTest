@@ -1,6 +1,6 @@
 import { test, expect } from './fixtures/base';
 import { getTasks } from './utils/testApi';
-import { setAllureGroup, setAllureMeta } from './utils/allure';
+import { setAllureGroup, setAllureMeta, step } from './utils/allure';
 
 test.describe('Filtering & Search', () => {
   test.beforeEach(() => {
@@ -21,16 +21,22 @@ test.describe('Filtering & Search', () => {
     const saCount = tasks.filter(task => task.assignee === 'SA').length;
     const highCount = tasks.filter(task => task.priority === 'high').length;
 
-    await app.filterByAssignee('SA');
-    await expect(app.page.locator('.task-card')).toHaveCount(saCount);
+    await step('Filter by assignee SA', async () => {
+      await app.filterByAssignee('SA');
+      await expect(app.page.locator('.task-card')).toHaveCount(saCount);
+    });
 
-    await app.filterByAssignee('');
-    await app.filterByPriority('high');
-    await expect(app.page.locator('.task-card')).toHaveCount(highCount);
+    await step('Filter by high priority', async () => {
+      await app.filterByAssignee('');
+      await app.filterByPriority('high');
+      await expect(app.page.locator('.task-card')).toHaveCount(highCount);
+    });
 
-    await app.clearFilters();
-    await app.searchInput().fill('export');
-    await expect(app.page.getByTestId('task-TASK-007')).toBeVisible();
-    await expect(app.page.getByTestId('task-TASK-001')).not.toBeVisible();
+    await step('Search by keyword "export"', async () => {
+      await app.clearFilters();
+      await app.searchInput().fill('export');
+      await expect(app.page.getByTestId('task-TASK-007')).toBeVisible();
+      await expect(app.page.getByTestId('task-TASK-001')).not.toBeVisible();
+    });
   });
 });

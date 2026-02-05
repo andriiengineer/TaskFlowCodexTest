@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures/base';
 import { getTaskByTitle } from './utils/testApi';
 import { getTomorrow } from './utils/date';
-import { setAllureGroup, setAllureMeta } from './utils/allure';
+import { setAllureGroup, setAllureMeta, step } from './utils/allure';
 
 test.describe('Task CRUD', () => {
   test.beforeEach(() => {
@@ -42,19 +42,29 @@ test.describe('Task CRUD', () => {
       labels: ['urgent']
     });
 
-    await expect(app.board.taskTitle(taskId)).toHaveText(`${title} v2`);
-    await expect(app.board.taskPriority(taskId)).toContainText('low');
+    await step('Validate updated title and priority', async () => {
+      await expect(app.board.taskTitle(taskId)).toHaveText(`${title} v2`);
+      await expect(app.board.taskPriority(taskId)).toContainText('low');
+    });
 
-    await app.selectTask(taskId);
-    await app.page.keyboard.press('Delete');
-    await app.confirmDelete();
+    await step('Delete task via keyboard', async () => {
+      await app.selectTask(taskId);
+      await app.page.keyboard.press('Delete');
+      await app.confirmDelete();
+    });
 
-    await expect(app.page.getByTestId(`task-${taskId}`)).toHaveCount(0);
+    await step('Verify task is removed', async () => {
+      await expect(app.page.getByTestId(`task-${taskId}`)).toHaveCount(0);
+    });
 
-    await app.undoButton().click();
-    await expect(app.board.taskCard(taskId)).toBeVisible();
+    await step('Undo deletion', async () => {
+      await app.undoButton().click();
+      await expect(app.board.taskCard(taskId)).toBeVisible();
+    });
 
-    await app.redoButton().click();
-    await expect(app.page.getByTestId(`task-${taskId}`)).toHaveCount(0);
+    await step('Redo deletion', async () => {
+      await app.redoButton().click();
+      await expect(app.page.getByTestId(`task-${taskId}`)).toHaveCount(0);
+    });
   });
 });

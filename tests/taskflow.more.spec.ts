@@ -1,6 +1,6 @@
 import { test, expect } from './fixtures/base';
 import { getSelectedTasks, getTaskById, getTasks } from './utils/testApi';
-import { setAllureGroup, setAllureMeta } from './utils/allure';
+import { setAllureGroup, setAllureMeta, step } from './utils/allure';
 import { getTomorrow } from './utils/date';
 
 test.describe('Context Menu', () => {
@@ -18,17 +18,22 @@ test.describe('Context Menu', () => {
       tags: ['context-menu', 'move', 'undo']
     });
 
-    await app.selectTask('TASK-001');
-    await app.openContextMenu('TASK-001');
-    await app.contextMenu.moveToDone().click();
+    await step('Move task to Done via context menu', async () => {
+      await app.selectTask('TASK-001');
+      await app.openContextMenu('TASK-001');
+      await app.contextMenu.moveToDone().click();
+      await expect.poll(async () => (await getTaskById(app.page, 'TASK-001'))?.status).toBe('done');
+    });
 
-    await expect.poll(async () => (await getTaskById(app.page, 'TASK-001'))?.status).toBe('done');
+    await step('Undo move', async () => {
+      await app.undoButton().click();
+      await expect.poll(async () => (await getTaskById(app.page, 'TASK-001'))?.status).toBe('todo');
+    });
 
-    await app.undoButton().click();
-    await expect.poll(async () => (await getTaskById(app.page, 'TASK-001'))?.status).toBe('todo');
-
-    await app.redoButton().click();
-    await expect.poll(async () => (await getTaskById(app.page, 'TASK-001'))?.status).toBe('done');
+    await step('Redo move', async () => {
+      await app.redoButton().click();
+      await expect.poll(async () => (await getTaskById(app.page, 'TASK-001'))?.status).toBe('done');
+    });
   });
 });
 
@@ -47,19 +52,24 @@ test.describe('Selection', () => {
       tags: ['delete', 'multi-select']
     });
 
-    await app.selectTask('TASK-003');
-    await app.selectTask('TASK-004', true);
-    await expect.poll(async () => (await getSelectedTasks(app.page)).length).toBe(2);
+    await step('Select two tasks', async () => {
+      await app.selectTask('TASK-003');
+      await app.selectTask('TASK-004', true);
+      await expect.poll(async () => (await getSelectedTasks(app.page)).length).toBe(2);
+    });
 
-    await app.page.keyboard.press('Delete');
-    await app.confirmDelete();
+    await step('Delete selected tasks', async () => {
+      await app.page.keyboard.press('Delete');
+      await app.confirmDelete();
+      await expect(app.page.getByTestId('task-TASK-003')).toHaveCount(0);
+      await expect(app.page.getByTestId('task-TASK-004')).toHaveCount(0);
+    });
 
-    await expect(app.page.getByTestId('task-TASK-003')).toHaveCount(0);
-    await expect(app.page.getByTestId('task-TASK-004')).toHaveCount(0);
-
-    await app.undoButton().click();
-    await expect(app.page.getByTestId('task-TASK-003')).toBeVisible();
-    await expect(app.page.getByTestId('task-TASK-004')).toBeVisible();
+    await step('Undo deletion', async () => {
+      await app.undoButton().click();
+      await expect(app.page.getByTestId('task-TASK-003')).toBeVisible();
+      await expect(app.page.getByTestId('task-TASK-004')).toBeVisible();
+    });
   });
 });
 
@@ -78,35 +88,41 @@ test.describe('Due Dates', () => {
       tags: ['due-date']
     });
 
-    await app.createTask({
-      title: 'Due today check',
-      status: 'todo',
-      priority: 'low',
-      assignee: 'SA',
-      dueDate: new Date().toISOString().split('T')[0]
+    await step('Create task due today', async () => {
+      await app.createTask({
+        title: 'Due today check',
+        status: 'todo',
+        priority: 'low',
+        assignee: 'SA',
+        dueDate: new Date().toISOString().split('T')[0]
+      });
+
+      const todayTask = await getTasks(app.page);
+      const created = todayTask.find(t => t.title === 'Due today check');
+      expect(created).toBeTruthy();
+      await expect(app.page.getByTestId(`task-${created!.id}-due`)).toContainText('Today');
     });
 
-    const todayTask = await getTasks(app.page);
-    const created = todayTask.find(t => t.title === 'Due today check');
-    expect(created).toBeTruthy();
-    await expect(app.page.getByTestId(`task-${created!.id}-due`)).toContainText('Today');
+    await step('Create task due tomorrow', async () => {
+      await app.createTask({
+        title: 'Due tomorrow check',
+        status: 'todo',
+        priority: 'low',
+        assignee: 'SA',
+        dueDate: getTomorrow()
+      });
 
-    await app.createTask({
-      title: 'Due tomorrow check',
-      status: 'todo',
-      priority: 'low',
-      assignee: 'SA',
-      dueDate: getTomorrow()
+      const tomorrowTask = await getTasks(app.page);
+      const createdTomorrow = tomorrowTask.find(t => t.title === 'Due tomorrow check');
+      expect(createdTomorrow).toBeTruthy();
+      await expect(app.page.getByTestId(`task-${createdTomorrow!.id}-due`)).toContainText('Tomorrow');
     });
 
-    const tomorrowTask = await getTasks(app.page);
-    const createdTomorrow = tomorrowTask.find(t => t.title === 'Due tomorrow check');
-    expect(createdTomorrow).toBeTruthy();
-    await expect(app.page.getByTestId(`task-${createdTomorrow!.id}-due`)).toContainText('Tomorrow');
-
-    const overdue = await getTaskById(app.page, 'TASK-006');
-    expect(overdue?.dueDate).toBeTruthy();
-    await expect(app.page.getByTestId('task-TASK-006-due')).toHaveClass(/overdue/);
+    await step('Verify overdue badge', async () => {
+      const overdue = await getTaskById(app.page, 'TASK-006');
+      expect(overdue?.dueDate).toBeTruthy();
+      await expect(app.page.getByTestId('task-TASK-006-due')).toHaveClass(/overdue/);
+    });
   });
 });
 
@@ -125,15 +141,19 @@ test.describe('Filtering & Search', () => {
       tags: ['search', 'filter']
     });
 
-    await app.searchInput().fill('TASK-008');
-    await expect(app.page.getByTestId('task-TASK-008')).toBeVisible();
+    await step('Search by task id', async () => {
+      await app.searchInput().fill('TASK-008');
+      await expect(app.page.getByTestId('task-TASK-008')).toBeVisible();
+    });
 
-    await app.searchInput().fill('');
-    await app.filterByAssignee('SA');
-    await app.filterByPriority('high');
+    await step('Apply combined filters', async () => {
+      await app.searchInput().fill('');
+      await app.filterByAssignee('SA');
+      await app.filterByPriority('high');
 
-    const tasks = await getTasks(app.page);
-    const expected = tasks.filter(t => t.assignee === 'SA' && t.priority === 'high');
-    await expect(app.page.locator('.task-card')).toHaveCount(expected.length);
+      const tasks = await getTasks(app.page);
+      const expected = tasks.filter(t => t.assignee === 'SA' && t.priority === 'high');
+      await expect(app.page.locator('.task-card')).toHaveCount(expected.length);
+    });
   });
 });

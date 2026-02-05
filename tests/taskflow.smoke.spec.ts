@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures/base';
 import { COLUMNS } from './utils/constants';
 import { getTasks } from './utils/testApi';
-import { setAllureGroup, setAllureMeta } from './utils/allure';
+import { setAllureGroup, setAllureMeta, step } from './utils/allure';
 
 test.describe('Board', () => {
   test.beforeEach(() => {
@@ -24,14 +24,20 @@ test.describe('Board', () => {
     return acc;
   }, {});
 
-  await expect(app.page.getByTestId('logo')).toBeVisible();
-  await expect(app.page.getByTestId('project-name')).toBeVisible();
+    await step('Verify header elements', async () => {
+      await expect(app.page.getByTestId('logo')).toBeVisible();
+      await expect(app.page.getByTestId('project-name')).toBeVisible();
+    });
 
-  for (const column of COLUMNS) {
-    await expect(app.board.columnBody(column.id)).toBeVisible();
-    await expect(app.board.columnCount(column.id)).toHaveText(String(counts[column.id] ?? 0));
-  }
+    await step('Validate column counts', async () => {
+      for (const column of COLUMNS) {
+        await expect(app.board.columnBody(column.id)).toBeVisible();
+        await expect(app.board.columnCount(column.id)).toHaveText(String(counts[column.id] ?? 0));
+      }
+    });
 
-    await expect(app.page.getByTestId('all-tasks-count')).toHaveText(String(tasks.length));
+    await step('Validate total tasks count', async () => {
+      await expect(app.page.getByTestId('all-tasks-count')).toHaveText(String(tasks.length));
+    });
   });
 });
